@@ -1,0 +1,81 @@
+//Variables
+$main-font: TM Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+$dark-gray: #475058;
+$med-gray: #768692;
+$light-gray: #dfe4e7;
+$lightest-gray: #f6f7f9;
+$white: #fff;
+
+html {
+    font-size: 58.5%;
+}
+
+body {
+    background: $lightest-gray;
+    color: $dark-gray;
+    font-family: $main-font;
+}
+
+h1 {
+    font-size: 2.3rem;
+    line-height: 1.4;
+    margin-bottom: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.event {
+    background: $white;
+    border: 1px solid $light-gray;
+    margin: 20px 0;
+    padding: 15px 0;
+
+    .weekday,
+    .date {
+        display: block;
+    }
+
+    .weekday {
+        font-size: 2rem;
+        line-height: 1.4;
+        font-weight: 700;
+        color: $med-gray;
+    }
+
+    .date,
+    .location {
+        font-size: 1.4rem;
+        line-height: 1.4;
+        font-weight: 400;
+    }
+
+    .name {
+        font-size: 1.6rem;
+        line-height: 1.4;
+        font-weight: 700;
+        margin: 0 0 .4rem;
+    }
+}
+
+@media (max-width: 1020px) {
+    .event {
+        padding-top: 0;
+    }
+
+    .event-photo {
+        margin-bottom: 15px;
+        padding: 0;
+        width: 100%;
+    }
+
+    .event-date {
+        width: 25%;
+    }
+
+    .event-info {
+        width: 75%;
+    }
+}
+
+
+

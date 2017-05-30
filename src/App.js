@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Order from './components/Order';
+import Event from './components/Event';
 
 class App extends Component {
 
@@ -14,36 +14,40 @@ class App extends Component {
 
   componentDidMount() {
     const ordersEndpoint = 'https://tm-service.herokuapp.com/orders';
-    
-
     fetch(ordersEndpoint)
-      .then(function(response) {
+      .then((response) => {
         return response.json()
-      }).then((json) => {
-        const orderIdArray = json.map((a) => a.id);
-        for (var i=0; i<10; i++) {
-          const orderId = orderIdArray[i];
-          const individualOrderEndpoint = 'https://tm-service.herokuapp.com/orders/' + orderId;
-          fetch(individualOrderEndpoint)
-            .then(function(response) {
+      }).then((orders) => {
+        const eventIdArray = orders.map((a) => a.event_id);
+        // Get details for the first 10 events
+        for (let i=0; i<10; i++) {
+          const eventId = eventIdArray[i];
+          const individualEventEndpoint = 'https://tm-events-api.herokuapp.com/event/' + eventId;
+          fetch(individualEventEndpoint)
+            .then((response) => {
               return response.json()
-            }).then((json) => {
+            }).then((eventInfo) => {
               const events = {...this.state.events};
-              events[orderId] = json;
+              events[eventId] = eventInfo;
               this.setState({events});
-            }).catch(function(ex) {
-              console.log('parsing failed', ex)
+            }).catch((error) => {
+              console.log('parsing failed', error)
             });
         }
-      }).catch(function(ex) {
-        console.log('parsing failed', ex)
+      }).catch((error) => {
+        console.log('parsing failed', error)
       });
   }
 
   render() {
     return (
-      <div className="App">
-        <Order/>
+      <div className="container">
+        <h1>My Events</h1>
+        {
+          Object
+           .keys(this.state.events)
+           .map(key => <Event key={key} index={key} details={this.state.events[key]} />)
+        }
       </div>
     );
   }
