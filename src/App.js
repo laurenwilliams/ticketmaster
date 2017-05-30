@@ -13,12 +13,23 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const ordersEndpoint = 'https://tm-service.herokuapp.com/orders';
+    this.getAllOrders();
+  }
+
+  getAllOrders = () => {
+        const ordersEndpoint = 'https://tm-service.herokuapp.com/orders';
     fetch(ordersEndpoint)
       .then((response) => {
         return response.json()
       }).then((orders) => {
         const eventIdArray = orders.map((a) => a.event_id);
+        this.getIndividualEvents(eventIdArray);
+      }).catch((error) => {
+        console.log('parsing failed', error)
+      });
+  };
+
+  getIndividualEvents = (eventIdArray) => {
         // Get details for the first 10 events
         for (let i=0; i<10; i++) {
           const eventId = eventIdArray[i];
@@ -34,10 +45,7 @@ class App extends Component {
               console.log('parsing failed', error)
             });
         }
-      }).catch((error) => {
-        console.log('parsing failed', error)
-      });
-  }
+  };
 
   render() {
     return (
@@ -48,7 +56,7 @@ class App extends Component {
            .keys(this.state.events)
            .map(key => <Event key={key} index={key} details={this.state.events[key]} />)
         }
-      </div>
+]      </div>
     );
   }
 }
